@@ -17,7 +17,7 @@
 
 
 Name:           pcsc-ccid
-%define _name ccid
+# %define _name ccid
 Version:        1.4.35
 Release:        0
 Summary:        PCSC Driver for CCID Based Smart Card Readers and GemPC Twin Serial Reader
@@ -27,7 +27,7 @@ URL:            https://ccid.apdu.fr/
 # Source:         https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2
 Source0:	%{name}-%{version}.tar.gz
 Source1:        %{name}-rpmlintrc
-Source2:        https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2.asc
+# Source2:        https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2.asc
 Source3:        %{name}.keyring
 BuildRequires:  automake
 BuildRequires:  libusb1-devel
