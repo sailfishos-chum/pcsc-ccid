@@ -1,0 +1,3 @@
+[submodule "CCID"]
+	path = CCID
+	url = https://salsa.debian.org/rousseau/CCID.git
