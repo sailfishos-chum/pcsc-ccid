@@ -23,10 +23,9 @@ Summary:        PCSC Driver for CCID Based Smart Card Readers and GemPC Twin Ser
 License:        LGPL-2.1-or-later
 Group:          Productivity/Security
 URL:            https://ccid.apdu.fr/
-
-Source0:	%{name}-%{version}.tar.gz
+Source:         https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2
 Source1:        %{name}-rpmlintrc
-
+Source2:        https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2.asc
 Source3:        %{name}.keyring
 BuildRequires:  automake
 BuildRequires:  libusb1-devel
