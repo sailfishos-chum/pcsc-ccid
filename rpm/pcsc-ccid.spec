@@ -17,6 +17,7 @@
 
 
 Name:           pcsc-ccid
+%define _name ccid
 Version:        1.4.35
 Release:        0
 Summary:        PCSC Driver for CCID Based Smart Card Readers and GemPC Twin Serial Reader
