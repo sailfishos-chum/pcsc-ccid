@@ -59,7 +59,7 @@ pcsc-lite package.
 
 
 %prep
-%setup -q -n %{_name}-%{version}
+%setup -q -n %{_name}-%{version}/CCID
 cp -a src/openct/LICENSE LICENSE.openct
 cp -a src/towitoko/README README.towitoko
 
