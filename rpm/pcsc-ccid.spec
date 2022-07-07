@@ -81,10 +81,10 @@ cp -a src/towitoko/README README.towitoko
 	--enable-twinserial \
 	--enable-zlp \
 	--enable-serialconfdir=%{_sysconfdir}/reader.conf.d/
-make %{?_smp_mflags}
+%make_build
 
 %install
-make DESTDIR=%{buildroot} install %{?_smp_mflags}
+%make_install
 # Copied elsewhere:
 mkdir -p %{buildroot}/%{_udevrulesdir}
 sed 's:GROUP="pcscd":GROUP="scard":' <src/92_pcscd_ccid.rules >%{buildroot}/%{_udevrulesdir}/92_pcscd_ccid.rules
