@@ -24,10 +24,11 @@ Summary:        PCSC Driver for CCID Based Smart Card Readers and GemPC Twin Ser
 License:        LGPL-2.1-or-later
 Group:          Productivity/Security
 URL:            https://ccid.apdu.fr/
-Source:         https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2
-Source1:        %{name}-rpmlintrc
-Source2:        https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2.asc
-Source3:        %{name}.keyring
+Source:          %{name}-%{version}.tar.bz2
+#Source:         https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2
+#Source1:        %{name}-rpmlintrc
+#Source2:        https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2.asc
+#Source3:        %{name}.keyring
 BuildRequires:  automake
 BuildRequires:  libusb1-devel
 BuildRequires:  pcsc-lite-devel
@@ -48,7 +49,7 @@ Enhances:       modalias(usb:*ic0Bisc00d*dc*dsc*dp*ic*isc*ip*)
 Enhances:       modalias(usb:v0D46p4081d*dc*dsc*dp*ic*isc*ip*)
 # Other supported devices:
 Enhances:       %USBDRIVERS
-BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+#BuildRoot:      %%{_tmppath}/%%{name}-%%{version}-build
 
 %description
 This package contains a generic USB CCID (Chip/Smart Card Interface
