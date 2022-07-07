@@ -30,6 +30,9 @@ Source:          %{name}-%{version}.tar.bz2
 #Source2:        https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2.asc
 #Source3:        %{name}.keyring
 BuildRequires:  automake
+BuildRequires:  autoconf
+BuildRequires:  autoconf-archive
+BuildRequires:  libtool
 BuildRequires:  libusb1-devel
 BuildRequires:  pcsc-lite-devel
 BuildRequires:  pkgconfig
@@ -67,7 +70,10 @@ cp -a src/towitoko/README README.towitoko
 %build
 # not needed ATM
 #./bootstrap
-%configure\
+# in git sources, it is needed, but lets use the RPM-internal %%reconfigure macro for that:
+#autoreconf -fiv
+#libtoolize --copy --force --automake
+%reconfigure\
 	--enable-twinserial \
 	--enable-zlp \
 	--enable-serialconfdir=%{_sysconfdir}/reader.conf.d/
