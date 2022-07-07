@@ -92,7 +92,7 @@ sed 's:GROUP="pcscd":GROUP="scard":' <src/92_pcscd_ccid.rules >%{buildroot}/%{_u
 %files
 %defattr(-,root,root)
 # NEWS is empty
-%doc AUTHORS ChangeLog README.md README.towitoko contrib/Kobil_mIDentity_switch/README_Kobil_mIDentity_switch.txt SCARDGETATTRIB.txt
+%doc AUTHORS README.md README.towitoko contrib/Kobil_mIDentity_switch/README_Kobil_mIDentity_switch.txt SCARDGETATTRIB.txt
 %license COPYING LICENSE.openct 
 %config (noreplace) %{_sysconfdir}/reader.conf.d/*
 %{ifddir}/*
