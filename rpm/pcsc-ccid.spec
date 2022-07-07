@@ -33,6 +33,7 @@ BuildRequires:  automake
 BuildRequires:  autoconf
 BuildRequires:  autoconf-archive
 BuildRequires:  libtool
+BuildRequires:  flex
 BuildRequires:  libusb1-devel
 BuildRequires:  pcsc-lite-devel
 BuildRequires:  pkgconfig
@@ -40,19 +41,22 @@ BuildRequires:  pkgconfig(udev)
 # openSUSE package pcsc-lite 1.6.6 is the first one which creates the scard UID and GID:
 Requires:       pcsc-lite >= 1.6.6
 %define ifddir %(pkgconfig libpcsclite --variable=usbdropdir)
-%define LBRACE (
-%define RBRACE )
-%define QUOTE "
-%define BACKSLASH \\
-%define USBDRIVERS %(set -x ; bunzip2 <%{S:0} | tr a-z A-Z | sed -n 's/^ATTRS{IDVENDOR}==%{QUOTE}%{BACKSLASH}%{LBRACE}[^%{QUOTE}]*%{BACKSLASH}%{RBRACE}%{QUOTE}, ATTRS{IDPRODUCT}==%{QUOTE}%{BACKSLASH}%{LBRACE}[^%{QUOTE}]*%{BACKSLASH}%{RBRACE}%{QUOTE}.*$/modalias%{LBRACE}usb:v%{BACKSLASH}1p%{BACKSLASH}2d*dc*dsc*dp*ic*isc*ip*%{RBRACE}/p' | tr '%{BACKSLASH}n' ' ')
-# We are not using Supplements here. User may want to choose between pcsc-lite and openct:
+#%%define LBRACE (
+#%%define RBRACE )
+#%%define QUOTE "
+#%%define BACKSLASH \\
+#%#%%define USBDRIVERS %%(set -x ; bunzip2 <%%{S:0} | tr a-z A-Z | sed -n 's/^ATTRS{IDVENDOR}==%%{QUOTE}%%{BACKSLASH}%%{LBRACE}[^%%{QUOTE}]*%%{BACKSLASH}%%{RBRACE}%%{QUOTE}, ATTRS{IDPRODUCT}==%%{QUOTE}%%{BACKSLASH}%%{LBRACE}[^%%{QUOTE}]*%%{BACKSLASH}%%{RBRACE}%%{QUOTE}.*$/modalias%%{LBRACE}usb:v%%{BACKSLASH}1p%%{BACKSLASH}2d*dc*dsc*dp*ic*isc*ip*%%{RBRACE}/p' | tr '%%{BACKSLASH}n' ' ')
+#%#%%define USBDRIVERS %%(find . -name "*rules" -exec cat {} \\; | tr a-z A-Z | sed -n 's/^ATTRS{IDVENDOR}==%%{QUOTE}%%{BACKSLASH}%%{LBRACE}[^%%{QUOTE}]*%%{BACKSLASH}%%{RBRACE}%%{QUOTE}, ATTRS{IDPRODUCT}==%%{QUOTE}%%{BACKSLASH}%%{LBRACE}[^%%{QUOTE}]*%%{BACKSLASH}%%{RBRACE}%%{QUOTE}.*$/modalias%%{LBRACE}usb:v%%{BACKSLASH}1p%%{BACKSLASH}2d*dc*dsc*dp*ic*isc*ip*%%{RBRACE}/p' | tr '%%{BACKSLASH}n' ' ')
+#%%define USBDRIVERS %(sed -n 's/^ATTRS{IDVENDOR}==%{QUOTE}%{BACKSLASH}%{LBRACE}[^%{QUOTE}]*%{BACKSLASH}%{RBRACE}%{QUOTE}, ATTRS{IDPRODUCT}==%{QUOTE}%{BACKSLASH}%{LBRACE}[^%{QUOTE}]*%{BACKSLASH}%{RBRACE}%{QUOTE}.*$/modalias%{LBRACE}usb:v%{BACKSLASH}1p%{BACKSLASH}2d*dc*dsc*dp*ic*isc*ip*%{RBRACE}/p'  src/*rules | tr '%{BACKSLASH}n' ' ' )
+
+#%# We are not using Supplements here. User may want to choose between pcsc-lite and openct:
 # Generic CCID devices:
 Enhances:       modalias(usb:*ic0Bisc00d*dc*dsc*dp*ic*isc*ip*)
 # Kobil mIDentity:
 Enhances:       modalias(usb:v0D46p4081d*dc*dsc*dp*ic*isc*ip*)
 # Other supported devices:
-Enhances:       %USBDRIVERS
-#BuildRoot:      %%{_tmppath}/%%{name}-%%{version}-build
+#%Enhances:       %USBDRIVERS
+#%#BuildRoot:      %%{_tmppath}/%%{name}-%%{version}-build
 
 %description
 This package contains a generic USB CCID (Chip/Smart Card Interface
