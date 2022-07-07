@@ -84,10 +84,12 @@ cp -a src/towitoko/README README.towitoko
 # Copied elsewhere:
 mkdir -p %{buildroot}/%{_udevrulesdir}
 sed 's:GROUP="pcscd":GROUP="scard":' <src/92_pcscd_ccid.rules >%{buildroot}/%{_udevrulesdir}/92_pcscd_ccid.rules
+echo INFO: ifddir is %{ifddir}
 
 %files
 %defattr(-,root,root)
 # NEWS is empty
+# ChangeLog is not in git
 %doc AUTHORS README.md README.towitoko contrib/Kobil_mIDentity_switch/README_Kobil_mIDentity_switch.txt SCARDGETATTRIB.txt
 %license COPYING LICENSE.openct 
 %config (noreplace) %{_sysconfdir}/reader.conf.d/*
