@@ -17,38 +17,31 @@
 
 
 Name:           pcsc-ccid
-%define _name ccid
 Version:        1.4.35
 Release:        0
 Summary:        PCSC Driver for CCID Based Smart Card Readers and GemPC Twin Serial Reader
 License:        LGPL-2.1-or-later
 Group:          Productivity/Security
 URL:            https://ccid.apdu.fr/
-Source:         https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2
-Source1:        %{name}-rpmlintrc
-Source2:        https://ccid.apdu.fr/files/%{_name}-%{version}.tar.bz2.asc
-Source3:        %{name}.keyring
+Source:          %{name}-%{version}.tar.bz2
 BuildRequires:  automake
+BuildRequires:  autoconf
+BuildRequires:  autoconf-archive
+BuildRequires:  libtool
+BuildRequires:  flex
 BuildRequires:  libusb1-devel
 BuildRequires:  pcsc-lite-devel
 BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(udev)
 # openSUSE package pcsc-lite 1.6.6 is the first one which creates the scard UID and GID:
 Requires:       pcsc-lite >= 1.6.6
-%define ifddir %(pkgconfig libpcsclite --variable=usbdropdir)
-%define LBRACE (
-%define RBRACE )
-%define QUOTE "
-%define BACKSLASH \\
-%define USBDRIVERS %(set -x ; bunzip2 <%{S:0} | tr a-z A-Z | sed -n 's/^ATTRS{IDVENDOR}==%{QUOTE}%{BACKSLASH}%{LBRACE}[^%{QUOTE}]*%{BACKSLASH}%{RBRACE}%{QUOTE}, ATTRS{IDPRODUCT}==%{QUOTE}%{BACKSLASH}%{LBRACE}[^%{QUOTE}]*%{BACKSLASH}%{RBRACE}%{QUOTE}.*$/modalias%{LBRACE}usb:v%{BACKSLASH}1p%{BACKSLASH}2d*dc*dsc*dp*ic*isc*ip*%{RBRACE}/p' | tr '%{BACKSLASH}n' ' ')
-# We are not using Supplements here. User may want to choose between pcsc-lite and openct:
+%define ifddir %(pkg-config libpcsclite --variable=usbdropdir)
+
+#%# We are not using Supplements here. User may want to choose between pcsc-lite and openct:
 # Generic CCID devices:
 Enhances:       modalias(usb:*ic0Bisc00d*dc*dsc*dp*ic*isc*ip*)
 # Kobil mIDentity:
 Enhances:       modalias(usb:v0D46p4081d*dc*dsc*dp*ic*isc*ip*)
-# Other supported devices:
-Enhances:       %USBDRIVERS
-BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
 This package contains a generic USB CCID (Chip/Smart Card Interface
@@ -57,32 +50,27 @@ Devices) driver.
 This driver is meant to be used with the PCSC-Lite daemon from the
 pcsc-lite package.
 
-
 %prep
-%setup -q -n %{_name}-%{version}/CCID
+%setup -q -n %{name}-%{version}/CCID
 cp -a src/openct/LICENSE LICENSE.openct
 cp -a src/towitoko/README README.towitoko
 
 %build
-# not needed ATM
-#./bootstrap
-%configure\
-	--enable-twinserial \
-	--enable-zlp \
-	--enable-serialconfdir=%{_sysconfdir}/reader.conf.d/
-make %{?_smp_mflags}
+%reconfigure\
+    --enable-twinserial \
+    --enable-zlp \
+    --enable-serialconfdir=%{_sysconfdir}/reader.conf.d/
+%make_build
 
 %install
-make DESTDIR=%{buildroot} install %{?_smp_mflags}
-# Copied elsewhere:
+%make_install
 mkdir -p %{buildroot}/%{_udevrulesdir}
 sed 's:GROUP="pcscd":GROUP="scard":' <src/92_pcscd_ccid.rules >%{buildroot}/%{_udevrulesdir}/92_pcscd_ccid.rules
 
 %files
 %defattr(-,root,root)
-# NEWS is empty
-%doc AUTHORS ChangeLog README.md README.towitoko contrib/Kobil_mIDentity_switch/README_Kobil_mIDentity_switch.txt SCARDGETATTRIB.txt
-%license COPYING LICENSE.openct 
+%doc AUTHORS README.md README.towitoko contrib/Kobil_mIDentity_switch/README_Kobil_mIDentity_switch.txt SCARDGETATTRIB.txt
+%license COPYING LICENSE.openct
 %config (noreplace) %{_sysconfdir}/reader.conf.d/*
 %{ifddir}/*
 %{_udevrulesdir}/*.rules
